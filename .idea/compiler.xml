@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="alex_dao" />
+        <module name="alex_domain" />
+        <module name="alex_service" />
+        <module name="alex_util" />
+        <module name="alex_web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="alex_dao" target="1.8" />
+      <module name="alex_domain" target="1.8" />
+      <module name="alex_service" target="1.8" />
+      <module name="alex_util" target="1.8" />
+      <module name="alex_web" target="1.8" />
+      <module name="shiro_demo" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
