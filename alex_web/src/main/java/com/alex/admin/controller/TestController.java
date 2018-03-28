@@ -23,6 +23,6 @@ public class TestController
     @RequestMapping("/index")
     public String showIndex()
     {
-        return "index";
+        return "login";
     }
 }

@@ -32,6 +32,7 @@
     <mysql-connector>6.0.6</mysql-connector>
     <cxf.version>2.4.1</cxf.version>
     <druid.version>1.1.8</druid.version>
+    <shiro.version>1.4.0</shiro.version>
   </properties>
 
   <dependencies>
@@ -46,6 +47,16 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-security</artifactId>
+      </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
 
     <!--redis-->
@@ -146,38 +157,42 @@
       <version>3.4</version>
     </dependency>
 
-    <!-- shiro begin -->
+    <!--shiro-->
     <dependency>
-      <artifactId>quartz</artifactId>
-      <groupId>org.opensymphony.quartz</groupId>
-      <version>1.6.1</version>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-spring</artifactId>
+      <version>${shiro.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.shiro</groupId>
       <artifactId>shiro-core</artifactId>
-      <version>1.2.2</version>
+      <version>${shiro.version}</version>
     </dependency>
+
+    <!-- shiro redis -->
     <dependency>
-      <groupId>org.apache.shiro</groupId>
-      <artifactId>shiro-web</artifactId>
-      <version>1.2.2</version>
+      <groupId>org.crazycake</groupId>
+      <artifactId>shiro-redis</artifactId>
+      <version>2.6.16</version>
     </dependency>
+
     <dependency>
-      <groupId>org.apache.shiro</groupId>
-      <artifactId>shiro-quartz</artifactId>
-      <version>1.2.2</version>
+      <groupId>com.github.theborakompanioni</groupId>
+      <artifactId>thymeleaf-extras-shiro</artifactId>
+      <version>2.0.0</version>
     </dependency>
-    <dependency>
-      <groupId>org.apache.shiro</groupId>
-      <artifactId>shiro-spring</artifactId>
-      <version>1.2.2</version>
-    </dependency>
-    <!-- shiro end -->
     <dependency>
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
       <version>2.9.0</version>
      </dependency>
+
+    <!--加密-->
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.10</version>
+    </dependency>
 
   </dependencies>
 

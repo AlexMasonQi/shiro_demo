@@ -9,6 +9,7 @@ public class UUser implements Serializable
     private String nickName;
     private String email;
     private String pswd;
+    private Integer role;
     private LocalDateTime createTime;
     private LocalDateTime lastLoginTime;
     private Long status;
@@ -17,12 +18,13 @@ public class UUser implements Serializable
     {
     }
 
-    public UUser(Long id, String nickName, String email, String pswd, LocalDateTime createTime, LocalDateTime lastLoginTime, Long status)
+    public UUser(Long id, String nickName, String email, String pswd, Integer role, LocalDateTime createTime, LocalDateTime lastLoginTime, Long status)
     {
         this.id = id;
         this.nickName = nickName;
         this.email = email;
         this.pswd = pswd;
+        this.role=role;
         this.createTime = createTime;
         this.lastLoginTime = lastLoginTime;
         this.status = status;
@@ -68,6 +70,16 @@ public class UUser implements Serializable
         this.pswd = pswd;
     }
 
+    public Integer getRole()
+    {
+        return role;
+    }
+
+    public void setRole(Integer role)
+    {
+        this.role = role;
+    }
+
     public LocalDateTime getCreateTime()
     {
         return createTime;
@@ -101,6 +113,6 @@ public class UUser implements Serializable
     @Override
     public String toString()
     {
-        return "UUser{" + "id=" + id + ", nickName='" + nickName + '\'' + ", email='" + email + '\'' + ", pswd='" + pswd + '\'' + ", createTime=" + createTime + ", lastLoginTime=" + lastLoginTime + ", status=" + status + '}';
+        return "UUser{" + "id=" + id + ", nickName='" + nickName + '\'' + ", email='" + email + '\'' + ", pswd='" + pswd + '\'' + ", role=" + role + ", createTime=" + createTime + ", lastLoginTime=" + lastLoginTime + ", status=" + status + '}';
     }
 }

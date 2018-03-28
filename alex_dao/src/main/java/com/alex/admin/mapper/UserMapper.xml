@@ -7,20 +7,60 @@
         <result column="nickname" jdbcType="VARCHAR" property="nickName"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="pswd" jdbcType="VARCHAR" property="pswd"/>
+        <result column="role" jdbcType="INTEGER" property="role"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
         <result column="status" jdbcType="BIGINT" property="status"/>
     </resultMap>
+
+    <!--获取所有用户-->
     <select id="getUserList" resultMap="userMap">
         SELECT
         id,
         nickname,
         email,
         pswd,
+        role,
         create_time,
         last_login_time,
         status
         FROM
         u_user
+    </select>
+
+    <!--根据用户名查询用户信息-->
+    <select id="getUserByUserName" resultMap="userMap">
+        SELECT
+        id,
+        nickname,
+        email,
+        pswd,
+        status
+        FROM u_user
+        WHERE
+        email=#{userName};
+    </select>
+
+    <!--根据用户ID查找对应角色信息-->
+    <select id="getRoleById" resultType="com.alex.admin.entity.URole">
+        SELECT
+        r.id,
+        r.name
+        FROM u_role r
+        INNER JOIN u_user_role ur
+        ON r.id=ur.rid
+        AND ur.uid=#{id};
+    </select>
+
+    <!--根据角色ID查询对应的权限信息-->
+    <select id="getPermissionsByRoleId" resultType="com.alex.admin.entity.UPermission">
+        SELECT
+        p.id,
+        p.url,
+        p.name
+        FROM u_permission p
+        INNER JOIN u_role_permission up
+        ON p.id=up.pid
+        AND up.rid=#{roleId};
     </select>
 </mapper>
