@@ -31,14 +31,13 @@ public class UserRealm extends AuthorizingRealm
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection)
     {
         String currentLoginName= (String) principalCollection.getPrimaryPrincipal();
-//        List<String> roleList=new ArrayList<>();
         List<String> userPermissions=new ArrayList<>();
         SimpleAuthorizationInfo authorizationInfo=new SimpleAuthorizationInfo();
 
         UUser user=userQueryService.getUserByName(currentLoginName);
         if(user!=null)
         {
-            URole role=userQueryService.getRoleByUserId(new Long(user.getId()).intValue());
+            URole role=userQueryService.getRoleByUserId(Integer.valueOf(user.getId().toString()));
             List<UPermission> permissionList=userQueryService.getPermissionsById(role.getId());
             authorizationInfo.addRole(role.getId().toString());
             for(UPermission permission:permissionList)
@@ -70,7 +69,7 @@ public class UserRealm extends AuthorizingRealm
             throw new UnknownAccountException();
         }
 
-        URole role=userQueryService.getRoleByUserId(new Long(user.getId()).intValue());
+        URole role=userQueryService.getRoleByUserId(Integer.valueOf(user.getId().toString()));
         user.setRole(role.getId());
 
         session.setAttribute("user",user);

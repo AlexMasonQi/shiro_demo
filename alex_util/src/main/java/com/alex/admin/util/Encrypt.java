@@ -91,7 +91,7 @@ public class Encrypt
 
     public static void main(String[] args)
     {
-        String str="becauseofyou7";
+        var str="becauseofyou7";
         System.out.println(getMd5(str));
     }
 }

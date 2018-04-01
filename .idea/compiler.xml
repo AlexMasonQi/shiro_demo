@@ -14,12 +14,12 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="alex_dao" target="1.8" />
-      <module name="alex_domain" target="1.8" />
-      <module name="alex_service" target="1.8" />
-      <module name="alex_util" target="1.8" />
-      <module name="alex_web" target="1.8" />
-      <module name="shiro_demo" target="1.8" />
+      <module name="alex_dao" target="1.10" />
+      <module name="alex_domain" target="1.10" />
+      <module name="alex_service" target="1.10" />
+      <module name="alex_util" target="1.10" />
+      <module name="alex_web" target="1.10" />
+      <module name="shiro_demo" target="1.10" />
     </bytecodeTargetLevel>
   </component>
 </project>
