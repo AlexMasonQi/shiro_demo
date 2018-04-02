@@ -43,10 +43,10 @@ public class UserRealm extends AuthorizingRealm
             URole role = userQueryService.getRoleByUserId(Integer.valueOf(user.getId().toString()));
             List<UPermission> permissionList = userQueryService.getPermissionsById(role.getId());
             user.setRole(role.getId());
-            authorizationInfo.addRole(role.getId().toString());
+            authorizationInfo.addRole(role.getName());
             for (UPermission permission : permissionList)
             {
-                userPermissions.add(permission.getId().toString());
+                userPermissions.add(permission.getName());
             }
             authorizationInfo.addStringPermissions(userPermissions);
         }

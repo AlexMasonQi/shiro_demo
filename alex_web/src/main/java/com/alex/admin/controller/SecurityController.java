@@ -32,8 +32,8 @@ public class SecurityController
     @Autowired
     private UserQueryService userQueryService;
 
+    @RequiresRoles("系统管理员")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    @RequiresRoles("admin")
     public String index(Model model)
     {
         String userName = (String) SecurityUtils.getSubject().getPrincipal();
