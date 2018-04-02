@@ -61,7 +61,7 @@ public class UserRealm extends AuthorizingRealm
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException
     {
-        System.out.println("[开始认证session ID:]" + SecurityUtils.getSubject().getSession().getId());
+        System.out.println("[开始认证session ID:]==>" + SecurityUtils.getSubject().getSession().getId());
         //获取用户输入的账号
         String userName = (String) authenticationToken.getPrincipal();
 

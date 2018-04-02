@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/test")
-public class TestController
+public class TestController extends BaseController
 {
     @Autowired
     private RedisUtil redisUtil;
