@@ -1,6 +1,8 @@
 package com.alex.admin.entity;
 
-public class UUserRole
+import java.io.Serializable;
+
+public class UUserRole implements Serializable
 {
     private Integer uId;
     private Integer rId;

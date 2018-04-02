@@ -1,6 +1,8 @@
 package com.alex.admin.entity;
 
-public class URolePermission
+import java.io.Serializable;
+
+public class URolePermission implements Serializable
 {
     private Integer rId;
     private Integer pId;

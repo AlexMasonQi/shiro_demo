@@ -27,20 +27,20 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
-  * @description    Shiro配置类
-  * @author Alex
-  * @date 2018.03.28 09:32
-  */
+ * @author Alex
+ * @description Shiro配置类
+ * @date 2018.03.28 09:32
+ */
 @Configuration
 public class ShiroConfiguration
 {
-    private static final Logger logger= LoggerFactory.getLogger(ShiroConfiguration.class);
+    private static final Logger logger = LoggerFactory.getLogger(ShiroConfiguration.class);
 
     /**
-      * @description Shiro生命周期处理器
-      * @author Alex
-      * @date 2018.03.28 14:21
-      */
+     * @description Shiro生命周期处理器
+     * @author Alex
+     * @date 2018.03.28 14:21
+     */
     @Bean
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor()
     {
@@ -48,16 +48,16 @@ public class ShiroConfiguration
     }
 
     /**
-      * @description Shiro的Web过滤器定义
-      * @author Alex
-      * @date 2018.03.28 14:24
-      */
+     * @description Shiro的Web过滤器定义
+     * @author Alex
+     * @date 2018.03.28 14:24
+     */
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shiroFilterFactoryBean()
     {
-        logger.info("注入Shiro的Web过滤器---->shiroFilter",ShiroFilterFactoryBean.class);
+        logger.info("注入Shiro的Web过滤器---->shiroFilter", ShiroFilterFactoryBean.class);
 
-        ShiroFilterFactoryBean shiroFilterFactoryBean=new ShiroFilterFactoryBean();
+        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 
         shiroFilterFactoryBean.setSecurityManager(securityManager());
 
@@ -70,7 +70,7 @@ public class ShiroConfiguration
 
 
         //定义拦截器
-        Map<String,String> filterChainDefinitionMap=new LinkedHashMap<>();
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 
         //配置不会被拦截的链接，按顺序判断
         //拦截规则如下:
@@ -78,12 +78,12 @@ public class ShiroConfiguration
         //authc:需要认证才能进行访问
         //user:配置记住我或认证通过可以访问
         //配置退出过滤器,其中的具体的退出代码Shiro已经替我们实现了
-        filterChainDefinitionMap.put("/logout","logout");
+        filterChainDefinitionMap.put("/logout", "logout");
         //<!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
         //<!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
-        filterChainDefinitionMap.put("/font/**","anon");
+        filterChainDefinitionMap.put("/font/**", "anon");
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/test/**", "anon");
         filterChainDefinitionMap.put("/**", "authc");
@@ -96,9 +96,9 @@ public class ShiroConfiguration
     @Bean
     public UserRealm userRealm()
     {
-        UserRealm userRealm=new UserRealm();
+        UserRealm userRealm = new UserRealm();
         //告诉realm,使用credentialsMatcher加密算法类来验证密文
-        userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+//        userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         userRealm.setCachingEnabled(false);
 
         return userRealm;
@@ -107,9 +107,10 @@ public class ShiroConfiguration
     @Bean
     public DefaultWebSecurityManager securityManager()
     {
-        logger.info("注入Shiro的Web过滤器---->shiroFilter",ShiroFilterFactoryBean.class);
+        logger.info("注入Shiro的Web过滤器---->shiroFilter", ShiroFilterFactoryBean.class);
 
-        DefaultWebSecurityManager securityManager=new DefaultWebSecurityManager();
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setRealm(userRealm());
         // 自定义缓存实现 使用redis
         securityManager.setCacheManager(redisCacheManager());
         // 自定义session管理 使用redis

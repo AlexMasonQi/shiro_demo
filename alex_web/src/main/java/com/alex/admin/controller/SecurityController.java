@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +32,8 @@ public class SecurityController
     @Autowired
     private UserQueryService userQueryService;
 
-    @RequiresRoles("ADMIN")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @RequiresRoles("admin")
     public String index(Model model)
     {
         String userName = (String) SecurityUtils.getSubject().getPrincipal();
@@ -55,6 +56,7 @@ public class SecurityController
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseBody
     public String login(@Valid UUser user, BindingResult bindingResult, RedirectAttributes redirectAttributes)
     {
         if (bindingResult.hasErrors())
@@ -122,7 +124,6 @@ public class SecurityController
         {
             logger.info("用户[" + userName + "]登录认证通过(这里可以进行一些认证通过后的一些系统参数初始化操作)");
             return "1";
-            //return "index";
         }
         else
         {

@@ -1,6 +1,8 @@
 package com.alex.admin.entity;
 
-public class UPermission
+import java.io.Serializable;
+
+public class UPermission implements Serializable
 {
     private Integer id;
     private String url;

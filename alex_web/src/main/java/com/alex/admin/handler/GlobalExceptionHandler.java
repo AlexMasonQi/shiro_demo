@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 class GlobalExceptionHandler
 {
 
-    public static final String DEFAULT_ERROR_VIEW = "page-404";
+    public static final String DEFAULT_ERROR_VIEW = "error";
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 

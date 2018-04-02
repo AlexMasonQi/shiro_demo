@@ -1,6 +1,8 @@
 package com.alex.admin.entity;
 
-public class URole
+import java.io.Serializable;
+
+public class URole implements Serializable
 {
     private Integer id;
     private String name;
