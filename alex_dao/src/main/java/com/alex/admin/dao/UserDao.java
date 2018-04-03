@@ -1,8 +1,9 @@
 package com.alex.admin.dao;
 
-import com.alex.admin.entity.UPermission;
-import com.alex.admin.entity.URole;
-import com.alex.admin.entity.UUser;
+import com.alex.admin.entity.Permission;
+import com.alex.admin.entity.Role;
+import com.alex.admin.entity.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,11 +11,11 @@ import java.util.List;
 @Repository
 public interface UserDao
 {
-    public List<UUser> getUserList();
+    public List<User> getUserList();
 
-    public UUser getUserByUserName(String userName);
+    public User getUserByUserName(@Param("userName") String userName);
 
-    public URole getRoleById(Integer id);
+    public Role getRoleById(Integer id);
 
-    public List<UPermission> getPermissionsByRoleId(Integer roleId);
+    public List<Permission> getPermissionsByRoleId(Integer roleId);
 }

@@ -1,13 +1,12 @@
 package com.alex.admin.controller;
 
-import com.alex.admin.entity.UUser;
+import com.alex.admin.entity.User;
 import com.alex.admin.service.UserQueryService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
-import org.apache.tomcat.jni.Global;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Map;
 import java.util.Objects;
 
 @Controller
@@ -32,7 +29,7 @@ public class SecurityController
     @Autowired
     private UserQueryService userQueryService;
 
-    @RequiresRoles("系统管理员")
+    @RequiresRoles("admin")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(Model model)
     {
@@ -57,7 +54,7 @@ public class SecurityController
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public String login(@Valid UUser user, BindingResult bindingResult, RedirectAttributes redirectAttributes)
+    public String login(@Valid User user, BindingResult bindingResult, RedirectAttributes redirectAttributes)
     {
         if (bindingResult.hasErrors())
         {
@@ -67,15 +64,15 @@ public class SecurityController
         //获取当前Subject
         Subject currentUser = SecurityUtils.getSubject();
 
-        String userName = user.getEmail();
+        String userName = user.getUserName();
 
-        UUser resultUser = userQueryService.getUserByName(userName);
+        User resultUser = userQueryService.getUserByName(userName);
         if (Objects.isNull(resultUser))
         {
             return "用户名或密码不正确，请稍后再试!";
         }
 
-        UsernamePasswordToken token = new UsernamePasswordToken(resultUser.getEmail(), resultUser.getPswd());
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), user.getUserPassword() + resultUser.getSalt());
         String result = StringUtils.EMPTY;
         try
         {

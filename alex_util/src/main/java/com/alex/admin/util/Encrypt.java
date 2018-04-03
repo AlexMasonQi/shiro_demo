@@ -1,5 +1,9 @@
 package com.alex.admin.util;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.crypto.hash.Sha256Hash;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -89,9 +93,24 @@ public class Encrypt
         return sb.toString();
     }
 
+    public static String getEncryptWithSalt(String str)
+    {
+        String salt = "3550fd";
+
+        //MD5
+        String md5 = new Md5Hash(str, salt).toString();
+
+        //SHA256
+//        String sha = new Sha256Hash(str, salt).toString();
+
+        return md5;
+    }
+
+
     public static void main(String[] args)
     {
-        var str = "becauseofyou7";
-        System.out.println(getMd5(str));
+        var str = "123456";
+        var result = DigestUtils.md5Hex(str);
+        System.out.println(result);
     }
 }

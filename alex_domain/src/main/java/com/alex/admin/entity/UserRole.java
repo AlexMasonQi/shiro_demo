@@ -2,19 +2,31 @@ package com.alex.admin.entity;
 
 import java.io.Serializable;
 
-public class UUserRole implements Serializable
+public class UserRole implements Serializable
 {
+    private Integer id;
     private Integer uId;
     private Integer rId;
 
-    public UUserRole()
+    public UserRole()
     {
     }
 
-    public UUserRole(Integer uId, Integer rId)
+    public UserRole(Integer id, Integer uId, Integer rId)
     {
+        this.id = id;
         this.uId = uId;
         this.rId = rId;
+    }
+
+    public Integer getId()
+    {
+        return id;
+    }
+
+    public void setId(Integer id)
+    {
+        this.id = id;
     }
 
     public Integer getuId()
@@ -40,7 +52,7 @@ public class UUserRole implements Serializable
     @Override
     public String toString()
     {
-        return "UUserRole{" + "uId=" + uId + ", rId=" + rId + '}';
+        return "UserRole{" + "id=" + id + ", uId=" + uId + ", rId=" + rId + '}';
     }
 }
 

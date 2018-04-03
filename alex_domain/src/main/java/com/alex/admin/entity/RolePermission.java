@@ -2,19 +2,31 @@ package com.alex.admin.entity;
 
 import java.io.Serializable;
 
-public class URolePermission implements Serializable
+public class RolePermission implements Serializable
 {
+    private Integer id;
     private Integer rId;
     private Integer pId;
 
-    public URolePermission()
+    public RolePermission()
     {
     }
 
-    public URolePermission(Integer rId, Integer pId)
+    public RolePermission(Integer id, Integer rId, Integer pId)
     {
+        this.id = id;
         this.rId = rId;
         this.pId = pId;
+    }
+
+    public Integer getId()
+    {
+        return id;
+    }
+
+    public void setId(Integer id)
+    {
+        this.id = id;
     }
 
     public Integer getrId()
@@ -40,6 +52,6 @@ public class URolePermission implements Serializable
     @Override
     public String toString()
     {
-        return "URolePermission{" + "rId=" + rId + ", pId=" + pId + '}';
+        return "RolePermission{" + "id=" + id + ", rId=" + rId + ", pId=" + pId + '}';
     }
 }

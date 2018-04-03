@@ -1,8 +1,8 @@
 package com.alex.admin.realm;
 
-import com.alex.admin.entity.UPermission;
-import com.alex.admin.entity.URole;
-import com.alex.admin.entity.UUser;
+import com.alex.admin.entity.Permission;
+import com.alex.admin.entity.Role;
+import com.alex.admin.entity.User;
 import com.alex.admin.service.UserQueryService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -37,16 +37,16 @@ public class UserRealm extends AuthorizingRealm
         List<String> userPermissions = new ArrayList<>();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 
-        UUser user = userQueryService.getUserByName(currentLoginName);
+        User user = userQueryService.getUserByName(currentLoginName);
         if (user != null)
         {
-            URole role = userQueryService.getRoleByUserId(Integer.valueOf(user.getId().toString()));
-            List<UPermission> permissionList = userQueryService.getPermissionsById(role.getId());
-            user.setRole(role.getId());
-            authorizationInfo.addRole(role.getName());
-            for (UPermission permission : permissionList)
+            Role role = userQueryService.getRoleByUserId(Integer.valueOf(user.getId().toString()));
+            List<Permission> permissionList = userQueryService.getPermissionsById(role.getId());
+            user.setUserRole(role.getId());
+            authorizationInfo.addRole(role.getRoleName());
+            for (Permission permission : permissionList)
             {
-                userPermissions.add(permission.getName());
+                userPermissions.add(permission.getPermissionName());
             }
             authorizationInfo.addStringPermissions(userPermissions);
         }
@@ -69,7 +69,7 @@ public class UserRealm extends AuthorizingRealm
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
 
-        UUser user = userQueryService.getUserByName(userName);
+        User user = userQueryService.getUserByName(userName);
 
         //如果用户名为空，则抛出该异常
         if (user == null)
@@ -77,13 +77,13 @@ public class UserRealm extends AuthorizingRealm
             throw new UnknownAccountException();
         }
 
-        URole role = userQueryService.getRoleByUserId(Integer.valueOf(user.getId().toString()));
-        user.setRole(role.getId());
+        Role role = userQueryService.getRoleByUserId(Integer.valueOf(user.getId().toString()));
+        user.setUserRole(role.getId());
 
         session.setAttribute("user", user);
 
         //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
-        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user.getEmail(), user.getPswd(), getName());
+        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user.getUserName(), user.getUserPassword(), getName());
 
         return simpleAuthenticationInfo;
     }

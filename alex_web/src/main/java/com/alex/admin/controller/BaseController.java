@@ -1,6 +1,6 @@
 package com.alex.admin.controller;
 
-import com.alex.admin.entity.UUser;
+import com.alex.admin.entity.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 
@@ -30,9 +30,9 @@ public class BaseController
      * @author Alex
      * @date 2018.04.02 22:20
      */
-    public UUser getLoginUser()
+    public User getLoginUser()
     {
-        UUser user = (UUser) SecurityUtils.getSubject().getSession().getAttribute("user");
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
 
         return user;
     }
