@@ -110,7 +110,7 @@ public class Encrypt
     public static void main(String[] args)
     {
         var str = "123456";
-        var result = DigestUtils.md5Hex(str);
+        var result = getEncryptWithSalt(str);
         System.out.println(result);
     }
 }

@@ -7,6 +7,7 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.ShiroFilter;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
@@ -21,6 +22,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
+import javax.servlet.Filter;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -67,6 +69,10 @@ public class ShiroConfiguration
         shiroFilterFactoryBean.setSuccessUrl("/index");
         //未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+        
+        Map<String, Filter> filters = new LinkedHashMap<>();
+        filters.put("kickout", accessControlFilter());
+        shiroFilterFactoryBean.setFilters(filters);
 
 
         //定义拦截器
@@ -86,11 +92,20 @@ public class ShiroConfiguration
         filterChainDefinitionMap.put("/font/**", "anon");
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/test/**", "anon");
-        filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/**", "kickout,authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
         return shiroFilterFactoryBean;
+    }
+
+    @Bean
+    public AccessControlFilter accessControlFilter()
+    {
+        KickoutSessionControlFilter logoutFilter = new KickoutSessionControlFilter();
+        logoutFilter.setSessionManager(sessionManager());
+        logoutFilter.setCacheManager(redisCacheManager());
+        return logoutFilter;
     }
 
     @Bean

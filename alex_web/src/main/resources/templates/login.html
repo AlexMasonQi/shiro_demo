@@ -58,5 +58,15 @@
                    });
         });
     });
+
+    function kickout() {
+        var href = location.href;
+        if (href.indexOf("kickout") > 0) {
+            alert("您的设备已经在另一个地方登录，您被迫下线！");
+        }
+    }
+
+    window.onload = kickout();
+
     /*]]>*/
 </script>
