@@ -3,13 +3,11 @@ package com.alex.admin.shiro;
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.alex.admin.realm.UserRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.servlet.ShiroFilter;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
@@ -23,7 +21,6 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import javax.servlet.Filter;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -69,7 +66,7 @@ public class ShiroConfiguration
         shiroFilterFactoryBean.setSuccessUrl("/index");
         //未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
-        
+
         Map<String, Filter> filters = new LinkedHashMap<>();
         filters.put("kickout", accessControlFilter());
         shiroFilterFactoryBean.setFilters(filters);
@@ -90,6 +87,10 @@ public class ShiroConfiguration
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/font/**", "anon");
+        filterChainDefinitionMap.put("/icons/**", "anon");
+        filterChainDefinitionMap.put("/images/**", "anon");
+        filterChainDefinitionMap.put("/videos/**", "anon");
+        filterChainDefinitionMap.put("/ztree/**", "anon");
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/test/**", "anon");
         filterChainDefinitionMap.put("/**", "kickout,authc");

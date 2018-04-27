@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<html>
+
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/ztree/css/zTreeStyle/zTreeStyle.css}">
+<script th:src="@{/ztree/js/jquery-1.4.4.min.js}"></script>
+<script th:src="@{/ztree/js/jquery.ztree.core.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var contextPath = /*[[${#httpServletRequest.contextPath}]]*/'';
+
+    var setting = {
+        check: {
+            enable: true,
+            chkStyle: "radio"
+        }
+    };
+
+    var zNodes = [
+        {
+            name: "父节点1-展开",
+            open: true,
+            children: [
+                {
+                    name: "父节点11-折叠",
+                    children: [
+                        {name: "叶子节点111"},
+                        {name: "叶子节点112"},
+                        {name: "叶子节点113"},
+                        {name: "叶子节点114"}
+                    ]
+                },
+                {
+                    name: "父节点12-折叠",
+                    children: [
+                        {name: "叶子节点121"},
+                        {name: "叶子节点122"},
+                        {name: "叶子节点123"},
+                        {name: "叶子节点124"}
+                    ]
+                },
+                {name: "没有子节点的父节点", isParent: true}
+            ]
+        }
+    ];
+
+    $(function () {
+        $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+    });
+
+    /*]]>*/
+</script>
+
+<div th:replace="common/head"></div>
+
+<div class="container" style="margin-top: 100px;">
+    <ul id="treeDemo" class="ztree"></ul>
+</div>
