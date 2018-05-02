@@ -16,4 +16,6 @@ public interface TkExamTypeDao
     List<Integer> selectAllLevelFromKnowledge();
 
     List<TkExamType> selectAllKnowledge();
+
+    List<Integer> isNodeExist();
 }

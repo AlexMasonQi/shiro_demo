@@ -13,11 +13,38 @@
     /*<![CDATA[*/
 
     var contextPath = /*[[${#httpServletRequest.contextPath}]]*/'';
+    var zTreeObj;
+
+    function zTreeOnClick(event, treeId, treeNode) {
+        alert(treeNode.tId + ", " + treeNode.name);
+    }
 
     var setting = {
         check: {
             enable: true,
             chkStyle: "radio"
+        },
+        // data: {
+        //     key: {
+        //         name: "menu_name"
+        //     },
+        //     simpleData: {
+        //         enable: true,
+        //         isKey: "id",
+        //         pIdKey: "fid",
+        //         rootPId: "0"
+        //     }
+        // },
+        // async: {
+        //     enable: true,
+        //     autoParam: ["subjectId=id"],
+        //     dataType: "json",
+        //     type: "post",
+        //     url: contextPath + "/test/showMenu.do"
+        // },
+        callback: {
+            onClick: zTreeOnClick,
+            // onCheck: clickLoad
         }
     };
 
@@ -50,8 +77,60 @@
     ];
 
     $(function () {
-        $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+        onLoadzTree();
     });
+
+    //加载树形数据结构
+    function onLoadzTree() {
+        $.ajax({
+                   type: "post",
+                   dataType: "json",
+                   url: contextPath + "/test/showMenu.do",
+                   data: {
+                       "subjectId": 556
+                   },
+                   success: function (data) {
+                       var zNode = data;
+                       $.fn.zTree.init($("#treeDemo"), setting, zNode);
+                   }
+               });
+    }
+
+    function refreshzTree(event, treeId, treeNode) {
+        zTreeObj = $.fn.zTree.getZTreeObj("treeDemo");
+        var type = "refresh";
+        var silent = false;
+        var nodes = zTreeObj.getCheckedNodes(true);
+
+        $(nodes).each(function (index, node) {
+            console.log(node);
+            zTreeObj.reAsyncChildNodes(node, type, silent);
+        });
+    }
+
+    function clickLoad(event, treeId, treeNode) {
+        alert(treeNode.id + " = " + treeNode.name);
+        zTreeObj = $.fn.zTree.getZTreeObj("treeDemo");
+        var nodes = zTreeObj.getCheckedNodes(true);
+
+        $(nodes).each(function (index, node) {
+            console.log(node);
+            $.ajax({
+                       type: "post",
+                       dataType: "json",
+                       url: contextPath + "/test/showMenu.do",
+                       data: {
+                           "subjectId": node.id
+                       },
+                       success: function (data) {
+                           var zNode = data;
+                           var temp = zTreeObj.addNodes(node, zNode);
+                           console.log(temp);
+                           zTreeObj.refresh();
+                       }
+                   });
+        });
+    }
 
     /*]]>*/
 </script>

@@ -71,4 +71,11 @@
         FROM tk_exam_type
         WHERE isType = 3 AND disabled = 1;
     </select>
+
+    <!--查询是否有此父ID的节点-->
+    <select id="isNodeExist" resultType="list">
+        select fid
+        from tk_exam_type
+        where disabled = 1
+    </select>
 </mapper>

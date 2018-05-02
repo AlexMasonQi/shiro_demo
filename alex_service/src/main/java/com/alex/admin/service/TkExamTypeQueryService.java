@@ -2,8 +2,6 @@ package com.alex.admin.service;
 
 import com.alex.admin.dao.TkExamTypeDao;
 import com.alex.admin.entity.TkExamType;
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,24 +54,46 @@ public class TkExamTypeQueryService
      * @author Xu Shiqi
      * @date 2018.04.27 11:56
      */
-    public Table<Integer, String, TkExamType> selectAllKnowledge()
+//    public Table<Integer, String, TkExamType> selectAllKnowledge()
+//    {
+//        List<TkExamType> tkExamTypeList = tkExamTypeDao.selectAllKnowledge();
+//        List<Integer> levelList = selectAllLevelFromKnowledge();
+//
+//        Table<Integer, String, TkExamType> resultTable = HashBasedTable.create();
+//
+//        for (Integer level : levelList)
+//        {
+//            for (TkExamType tkExamType : tkExamTypeList)
+//            {
+//                if (level.equals(tkExamType.getLevel()))
+//                {
+//                    resultTable.put(level, tkExamType.getId() + "-" + tkExamType.getFid(), tkExamType);
+//                }
+//            }
+//        }
+//
+//        return resultTable;
+//    }
+
+    /**
+     * @return 考试知识点集合
+     * @description 获取所有的知识点
+     * @author Xu Shiqi
+     * @date 2018.04.27 11:56
+     */
+    public List<TkExamType> selectAllKnowledge()
     {
-        List<TkExamType> tkExamTypeList = tkExamTypeDao.selectAllKnowledge();
-        List<Integer> levelList = selectAllLevelFromKnowledge();
+        return tkExamTypeDao.selectAllKnowledge();
+    }
 
-        Table<Integer, String, TkExamType> resultTable = HashBasedTable.create();
-
-        for (Integer level : levelList)
-        {
-            for (TkExamType tkExamType : tkExamTypeList)
-            {
-                if (level.equals(tkExamType.getLevel()))
-                {
-                    resultTable.put(level, tkExamType.getId() + "-" + tkExamType.getFid(), tkExamType);
-                }
-            }
-        }
-
-        return resultTable;
+    /**
+     * @return 考试类型集合
+     * @description 判断该节点是否存在子节点
+     * @author Xu Shiqi
+     * @date 2018.05.02 15:35
+     */
+    public List<Integer> isNodeExist()
+    {
+        return tkExamTypeDao.isNodeExist();
     }
 }

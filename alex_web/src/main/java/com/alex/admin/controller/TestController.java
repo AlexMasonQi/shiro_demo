@@ -4,7 +4,7 @@ import com.alex.admin.entity.TkExamType;
 import com.alex.admin.service.TkExamTypeQueryService;
 import com.alex.admin.service.UserQueryService;
 import com.alex.admin.util.RedisUtil;
-import com.google.common.collect.Table;
+import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/test")
@@ -33,6 +35,8 @@ public class TestController extends BaseController
 
     @Autowired
     private TkExamTypeQueryService tkExamTypeQueryService;
+
+    private List<TkExamType> resultList = new ArrayList<>();
 
     @RequestMapping("/index")
     public String showIndex()
@@ -72,31 +76,52 @@ public class TestController extends BaseController
         return "testExamType";
     }
 
-    public void test()
+    private List<TkExamType> getKnowledgeBySubjectId(List<TkExamType> tkExamTypeList, Integer id)
     {
-        Table<Integer, String, TkExamType> examTypeTable = tkExamTypeQueryService.selectAllKnowledge();
+        List<TkExamType> tempList = new ArrayList<>();
 
-        List<Integer> levelList = new ArrayList<>(examTypeTable.rowKeySet());
-        Collections.sort(levelList);
-
-        //假设subjectId为前台传过来的科目ID
-        Integer subjectId = 13570;
-
-        for (Integer level : levelList)
+        for (TkExamType tkExamType : tkExamTypeList)
         {
-            Map<String, TkExamType> tkExamTypeMap = examTypeTable.row(level);
-            Collection<TkExamType> tkExamTypes = tkExamTypeMap.values();
-
-            for (TkExamType tkExamType : tkExamTypes)
+            if (id.equals(tkExamType.getFid()))
             {
-                if (subjectId.equals(tkExamType.getFid()))
-                {
-                    String[] arr = tkExamType.getName().split("_");
-                    String newName = arr[arr.length - 1];
-                    tkExamType.setName(newName);
-                    System.out.println(tkExamType);
-                }
+                resultList.add(tkExamType);
+                tempList = getKnowledgeBySubjectId(tkExamTypeList, tkExamType.getId());
+                tkExamType.setTkExamTypeList(tempList);
             }
         }
+
+        return resultList;
+    }
+
+    @RequestMapping("/showMenu")
+    @ResponseBody
+    public String showMenu(Integer subjectId)
+    {
+//        List<TkExamType> tkExamTypeList = getKnowledgeBySubjectId(2);
+//        List<TkExamType> tkExamTypeList1 = new ArrayList<>();
+//
+//        List<Integer> fids = tkExamTypeQueryService.isNodeExist();
+//
+//        Table<Integer, String, TkExamType> examTypeTable = tkExamTypeQueryService.selectAllKnowledge();
+//        List<Integer> levelList = new ArrayList<>(examTypeTable.rowKeySet());
+//        Collections.sort(levelList);
+//
+//        //如果对应科目存在知识点
+//        if (tkExamTypeList.size() > 0)
+//        {
+//            Collection<Map<String, TkExamType>> mapList = examTypeTable.rowMap().values();
+//            //每个level对应的Map
+//            for (Map<String, TkExamType> tkExamTypeMap : mapList)
+//            {
+//            }
+//        }
+
+        List<TkExamType> tkExamTypeList = tkExamTypeQueryService.selectAllKnowledge();
+
+        List<TkExamType> results = getKnowledgeBySubjectId(tkExamTypeList, subjectId);
+
+        String jsonString = JSON.toJSONString(results);
+
+        return jsonString;
     }
 }

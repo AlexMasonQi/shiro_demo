@@ -1,6 +1,7 @@
 package com.alex.admin.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Xu Shiqi
@@ -34,6 +35,8 @@ public class TkExamType implements Serializable
     private String category;
     private Integer ctType;
     private String wxSid;
+
+    private List<TkExamType> tkExamTypeList;
 
     public Integer getId()
     {
@@ -285,9 +288,13 @@ public class TkExamType implements Serializable
         this.wxSid = wxSid;
     }
 
-    @Override
-    public String toString()
+    public List<TkExamType> getTkExamTypeList()
     {
-        return "TkExamType{" + "id=" + id + ", fid=" + fid + ", pidId='" + pidId + '\'' + ", name='" + name + '\'' + ", remark='" + remark + '\'' + ", sort=" + sort + ", isContent=" + isContent + ", isType=" + isType + ", columnId='" + columnId + '\'' + ", level=" + level + ", node=" + node + ", required=" + required + ", knowRequired=" + knowRequired + ", areaRequired=" + areaRequired + ", area='" + area + '\'' + ", addUsername='" + addUsername + '\'' + ", addTime='" + addTime + '\'' + ", status=" + status + ", uniqueCode='" + uniqueCode + '\'' + ", jianpin='" + jianpin + '\'' + ", isty=" + isty + ", isApp=" + isApp + ", category='" + category + '\'' + ", ctType=" + ctType + ", wxSid='" + wxSid + '\'' + '}';
+        return tkExamTypeList;
+    }
+
+    public void setTkExamTypeList(List<TkExamType> tkExamTypeList)
+    {
+        this.tkExamTypeList = tkExamTypeList;
     }
 }
