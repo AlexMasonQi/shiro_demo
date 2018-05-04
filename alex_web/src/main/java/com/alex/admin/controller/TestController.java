@@ -36,8 +36,6 @@ public class TestController extends BaseController
     @Autowired
     private TkExamTypeQueryService tkExamTypeQueryService;
 
-    private List<TkExamType> resultList = new ArrayList<>();
-
     @RequestMapping("/index")
     public String showIndex()
     {
@@ -78,15 +76,25 @@ public class TestController extends BaseController
 
     private List<TkExamType> getKnowledgeBySubjectId(List<TkExamType> tkExamTypeList, Integer id)
     {
-        List<TkExamType> tempList = new ArrayList<>();
+        List<TkExamType> resultList = new ArrayList<>();
 
         for (TkExamType tkExamType : tkExamTypeList)
         {
             if (id.equals(tkExamType.getFid()))
             {
+                String[] arr = tkExamType.getName().split("_");
+                String newName = arr[arr.length - 1];
+                tkExamType.setName(newName);
+
                 resultList.add(tkExamType);
-                tempList = getKnowledgeBySubjectId(tkExamTypeList, tkExamType.getId());
-                tkExamType.setTkExamTypeList(tempList);
+                List<TkExamType> tempList = getKnowledgeBySubjectId(tkExamTypeList, tkExamType.getId());
+                //如果没有子节点，则作为叶子节点
+                tkExamType.setIsParent(false);
+                if (tempList.size() > 0)
+                {
+                    tkExamType.setIsParent(true);
+                }
+                tkExamType.setNodes(tempList);
             }
         }
 
@@ -97,30 +105,12 @@ public class TestController extends BaseController
     @ResponseBody
     public String showMenu(Integer subjectId)
     {
-//        List<TkExamType> tkExamTypeList = getKnowledgeBySubjectId(2);
-//        List<TkExamType> tkExamTypeList1 = new ArrayList<>();
-//
-//        List<Integer> fids = tkExamTypeQueryService.isNodeExist();
-//
-//        Table<Integer, String, TkExamType> examTypeTable = tkExamTypeQueryService.selectAllKnowledge();
-//        List<Integer> levelList = new ArrayList<>(examTypeTable.rowKeySet());
-//        Collections.sort(levelList);
-//
-//        //如果对应科目存在知识点
-//        if (tkExamTypeList.size() > 0)
-//        {
-//            Collection<Map<String, TkExamType>> mapList = examTypeTable.rowMap().values();
-//            //每个level对应的Map
-//            for (Map<String, TkExamType> tkExamTypeMap : mapList)
-//            {
-//            }
-//        }
-
         List<TkExamType> tkExamTypeList = tkExamTypeQueryService.selectAllKnowledge();
 
         List<TkExamType> results = getKnowledgeBySubjectId(tkExamTypeList, subjectId);
 
         String jsonString = JSON.toJSONString(results);
+        System.out.println(jsonString);
 
         return jsonString;
     }

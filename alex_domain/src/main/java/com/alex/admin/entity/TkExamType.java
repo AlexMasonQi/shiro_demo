@@ -36,7 +36,10 @@ public class TkExamType implements Serializable
     private Integer ctType;
     private String wxSid;
 
-    private List<TkExamType> tkExamTypeList;
+    private List<TkExamType> nodes;
+
+    //用于zTree标志位
+    private Boolean isParent;
 
     public Integer getId()
     {
@@ -288,13 +291,23 @@ public class TkExamType implements Serializable
         this.wxSid = wxSid;
     }
 
-    public List<TkExamType> getTkExamTypeList()
+    public List<TkExamType> getNodes()
     {
-        return tkExamTypeList;
+        return nodes;
     }
 
-    public void setTkExamTypeList(List<TkExamType> tkExamTypeList)
+    public void setNodes(List<TkExamType> nodes)
     {
-        this.tkExamTypeList = tkExamTypeList;
+        this.nodes = nodes;
+    }
+
+    public Boolean getIsParent()
+    {
+        return isParent;
+    }
+
+    public void setIsParent(Boolean isParent)
+    {
+        this.isParent = isParent;
     }
 }
